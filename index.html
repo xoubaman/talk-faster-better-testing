@@ -1,107 +1,353 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>Faster and better testing</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white_customized.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<h1>Better</h1>
-					<h3>and</h3>
-					<h1>faster</h1>
-					<h1>testing</h1>
-					<h8>(hopefully)</h8>
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					<h2>What is this about?</h2>
-					<ul>
-					<li>About what we should expect from tests</li>
-					<li>About how to write better tests</li>
-					<li>About how to be more efficient with tests</li>
-					</ul>
-				</section>
-				<section>
-					<h2>What we should expect from tests?</h2>
-					<p>Confidence in what we code, both because it works and because it does not break previously working code.</p>
-				</section>
-				<section>
-					<h2>What we should expect from tests?</h2>
-					<ul>
-						<li>We cannot totally rely on manual testing because</li>
-						<li>We will miss the whole picture</li>
-						<li>It takes a lot of time to do it properly</li>
-						<li>It does not scale</li>
-						<li>It includes a falible component (we)</li>
-					</ul>
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
-				<section>
-					About me
-				</section>
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section data-state="dark-bg">
+            <h1 class="fragment">Faster</h1>
+            <h3 class="fragment">and</h3>
+            <h1 class="fragment">better</h1>
+            <h1 class="fragment">testing</h1>
+            <h4 class="fragment">(hopefully)</h4>
+        </section>
+        <section>
+            <h2>About me</h2>
+            <div class="two-column-content">
+                <div class="two-column-first">
+                    <img src="img/linkedin-profile.png" title="It is a me!">
+                    <p class="foot-note">@xoubaman</p>
+                </div>
+                <div class="two-column-second">
+                    <ul>
+                        <li class="fragment">Programmer wannabe</li>
+                        <li class="fragment">Doing PHP at Docplanner</li>
+                        <li class="fragment">Speaker newbie! <span class="emoji all-the-things"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-state="dark-bg">
+            <h1>What is this about?</h1>
+        </section>
+        <section>
+            <p>This is about...</p>
+            <ul>
+                <li class="fragment">...what we should expect from tests</li>
+                <li class="fragment">...how to efficiently work with tests</li>
+                <li class="fragment">...how to write better tests</li>
+            </ul>
+        </section>
+        <section data-state="dark-bg">
+            <h1>What we should expect from tests?</h1>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>Confidence in what we code, both because it works and because it does not break previously working
+                code</p>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>We cannot totally rely on manual testing because</p>
+            <ul>
+                <li class="fragment">We will miss the whole picture</li>
+                <li class="fragment">It is time expensive</li>
+                <li class="fragment">It does not scale</li>
+                <li class="fragment">It includes a fallible component</li>
+            </ul>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>So we want our tests to be</p>
+            <ul>
+                <li class="fragment">Deterministic <span class="emoji all-the-things"></span></li>
+                <li class="fragment">Automated <span class="emoji all-the-things"></span></li>
+                <li class="fragment">Fast to execute <span class="emoji all-the-things"></span></li>
+            </ul>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>And we want this</p>
+            <p class="fragment">to have fast feedback loops</p>
+            <p class="fragment">so we detect failures as soon as possible, when they are cheap</p>
+            <p class="fragment">It’s all about the feedback!</p>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>Deterministic</p>
+            <ul>
+                <li class="fragment">Always the same result with the same input</li>
+                <li class="fragment">They deal with variable external factors (ie: time)</li>
+            </ul>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>Automated</p>
+            <ul>
+                <li class="fragment">We must be able to run all our tests with the minimum interaction possible</li>
+                <li class="fragment">And we can run them without having to prepare all the test setup</li>
+            </ul>
+        </section>
+        <section>
+            <p class="top-title-1">What we should expect from tests?</p>
+            <p>Fast</p>
+            <ul>
+                <li class="fragment">Slow tests provide slow feedback cycles</li>
+                <li class="fragment">If they take ages to run, we will simply not run them</li>
+                <li class="fragment">We trend to disconnect if something takes too long, losing focus</li>
+            </ul>
+        </section>
+        <section data-state="dark-bg">
+            <h1>How to efficiently work with tests</h1>
+        </section>
+        <section>
+            <p class="top-title-2">How to efficiently work with tests</p>
+            <p>Write them faster!</p>
+            <p class="fragment">Does your IDE provide templates?</p>
+            <div class="fragment">
+                <p>IntelliJ: update test case and test templates</p>
+                <p>IntelliJ: use shortcuts to create/navigate to tests</p>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-2">How to efficiently work with tests</p>
+            <p>Run them faster!</p>
+            <p class="fragment">Automate how you run them</p>
+            <div class="fragment">
+                <p>IntelliJ: customize run configurations</p>
+                <p>IntelliJ: use shortcuts to run current test or test case</p>
+                <p>Use some custom script</p>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-2">How to efficiently work with tests</p>
+            <p>Run them often!</p>
+            <p class="fragment">Use git hooks to run your test suites before commit</p>
+            <p class="fragment">Reject all commits which are not green</p>
+            <p class="fragment">Tests must be fast! Do not run the slower ones</p>
+        </section>
+        <section>
+            <p class="top-title-2">How to efficiently work with tests</p>
+            <p>The test pyramid</p>
+            <div class="two-column-content">
+                <div class="two-column-first">
+                    <img class="test-pyramid-fowler" src="img/test-pyramid.png"
+                         title="Test Pyramid from martinfowler.com"/>
+                    <p class="foot-note">from www.martinfowler.com</p>
+                </div>
+                <div class="two-column-second">
+                    <p class="fragment" style="font-size: 0.6em">End-to-end: testing how system behaves as a whole,
+                        sloooow, brittle by nature</p>
+                    <p class="fragment" style="font-size: 0.6em">Integration: testing how two components work with each
+                        other, slow</p>
+                    <p class="fragment" style="font-size: 0.6em">Unit: testing meaningful units, fast, isolated</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-2">How to efficiently work with tests</p>
+            <p>Avoid ice cream, it is not healthy</p>
+            <div class="two-column-content">
+                <div class="two-column-first fragment">
+                    <img class="test-pyramid plain" src="img/ideal-automated-testing-pyramid.jpg"
+                         title="Test pyramid from watirmelon.blog"/>
+                </div>
+                <div class="two-column-second fragment">
+                    <img class="ice-cream plain" src="img/software-testing-icecream-cone-antipattern.jpg"
+                         title="Ice-cream cone antipattern from watirmelon.blog"/>
+                </div>
+            </div>
+        </section>
+        <section data-state="dark-bg">
+            <h1>How to write better tests</h1>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Treat tests are first class citizens, same as production code</p>
+            <ul>
+                <li class="fragment">Clean code</li>
+                <li class="fragment">SOLID, DRY, KISS, [name your buzzword]</li>
+                <li class="fragment">Refactor and maintain</li>
+            </ul>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Use TDD</p>
+            <p class="fragment">Pros: it is nuts</p>
+            <p class="fragment">Cons: easy conceptually, hard to master</p>
+            <p class="fragment">It improves design for both the test and the system under test</p>
+            <p class="fragment">Focus on one small problem at a time</p>
+            <p class="fragment">Not valid for everything or every moment!</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Just one assertion per test</p>
+            <p class="fragment">Because is the <span style="font-weight: bold">S</span>OLID thing to do</p>
+            <p class="fragment">Consider an assertion as checking a bounded behavior, although it implies more than one
+                concrete assertion</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Just one assertion per test</p>
+            <pre>
+                <code class="php">
+public function testOperations(): void {
+    $calculator = new Calculator();
+    $this->assertSame(5, $calculator->sum(2,3));
+    $this->assertSame(7, $calculator->minus(10,3));
+    $this->assertSame(15, $calculator->multiply(10,3));
+}
+                </code>
+            </pre>
+            <p class="fragment">baaaaaaaaaaaaaaad</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Just one assertion per test</p>
+            <pre>
+                <code class="php">
+public function testItAdds(): void {
+    $calculator = new Calculator();
+    $this->assertSame(5, $calculator->sum(2,3));
+}
 
-			</div>
-		</div>
+public function testItCreatesSiblingUsers(): void {
+    $createUserService = new CreateUserService();
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    $userOne = $createUserService->withId(1337);
+    $userTwo = $createUserService->siblingOf($userOne);
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+    $this->assertTrue($userOne->isSiblingOf($userTwo);
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Test behavior, not implementation</p>
+            <p>Tests should tell you if your application works, not how it is coded</p>
+            <p>Usually there are many ways of solving a problem. Our tests should not fail if we exchange between valid
+                ways of doing it
+            </p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Test behavior, not implementation</p>
+            <div class="two-column-content">
+                <div class="two-column-first">
+                    Something bad
+                </div>
+                <div class="two-column-second">
+                    Something good
+                </div>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Avoid mock-aggedon</p>
+            <p>Mocking everything is not needed most of the times</p>
+            Example: mock a VO
+            <p>Set you test boundaries and test only the public interface of them</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Avoid mock-aggedon</p>
+            <p>What about avoiding mocking libraries?</p>
+            <p>Manual mocks are cheap and more understandable</p>
+            <p>Asserts are explicit</p>
+            <div class="two-column-content">
+                <div class="two-column-first">
+                    Spy example
+                </div>
+                <div class="two-column-second">
+                    Spy usage
+                </div>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Stick to the structure</p>
+            <div class="fragment">
+                <p>AAA: Arrange, Act, Assert</p>
+                <p>GWT: Given, When, Then</p>
+            </div>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Use builders for data fixtures</p>
+            <p>It is the DRY thing to do</p>
+            <p>Reusable, semantic, customizable</p>
+            <p>Orthogonality: a change in a constructor implies one single change in the builder</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Use builders for data fixtures</p>
+            <div class="two-column-content">
+                <div class="two-column-first">
+                    BAD: test instantiating a class with x properties, most of them irrelevant. Start by the assertion
+                    assertSame::(100, $totalToInvoice), point how irrelevant some fields are (item name, date)
+                </div>
+                <div class="two-column-second">
+                    NOT BAD: use a builder :). Examples of customizable builders: create(array), banned(),
+                    withActiveNotifications(), fluent setters.
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Almost done!</h2>
+            <p class="fragment">Why the <span style="font-style: italic;">hopefully</span> in the title?</p>
+            <p class="fragment">Not all practises work in all situations</p>
+            <p class="fragment">Evaluate yours and adapt to it</p>
+            <p class="fragment">(and do TDD)</p>
+        </section>
+        <section class="title-slide">
+            <h1>That's all</h1>
+            <h2>Thank you!</h2>
+            <p>Slides available at</p>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+</script>
+</body>
 </html>
