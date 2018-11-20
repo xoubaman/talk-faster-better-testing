@@ -15,3 +15,20 @@ class MyClass
         return "Hello darkness my old friend";
     }
 }
+//
+//public function testReturnsTrue(): void
+//{
+//    $class = new MyClass();
+//
+//    self::assertTrue($class->returnABoolean());
+//}
+//
+//public function testReturnsString(): void
+//{
+//    $class = new MyClass();
+//
+//    self::assertSame(
+//        "Hello darkness my old friend",
+//        $class->returnAString()
+//    );
+//}

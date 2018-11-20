@@ -1,7 +1,8 @@
 {
     "autoload": {
         "psr-4": {
-            "Example\\": "examples/"
+            "Example\\": "examples/",
+            "Example\\Tests\\": "examples/tests/"
         }
     },
     "require-dev": {

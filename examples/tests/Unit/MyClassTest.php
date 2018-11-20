@@ -1,10 +1,13 @@
 <?php
 
+namespace Example\Tests\Unit;
+
 use Example\MyClass;
 use PHPUnit\Framework\TestCase;
 
 class MyClassTest extends TestCase
 {
+
     public function testReturnsTrue(): void
     {
         $class = new MyClass();
@@ -21,4 +24,5 @@ class MyClassTest extends TestCase
             $class->returnAString()
         );
     }
+
 }
