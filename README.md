@@ -9,5 +9,6 @@ Any feedback is welcome!
 
 ## TODO
 
-Add memes. Presentation is boring.
+* Add memes. Presentation is boring.
+* Use scss instead of custom css stylesheet overrides.
 
