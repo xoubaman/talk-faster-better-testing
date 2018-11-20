@@ -385,3 +385,7 @@ img.test-pyramid {
 img.ice-cream {
     width: 60%;
 }
+
+.reveal pre.code-big-chunk {
+    font-size: 0.4em;
+}

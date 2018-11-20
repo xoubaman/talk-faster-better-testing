@@ -78,10 +78,10 @@
         </section>
         <section>
             <p class="top-title-1">What we should expect from tests?</p>
-            <p>So we want our tests to be</p>
+            <p>So we want non manual tests</p>
             <ul>
-                <li class="fragment">Deterministic <span class="emoji all-the-things"></span></li>
                 <li class="fragment">Automated <span class="emoji all-the-things"></span></li>
+                <li class="fragment">Deterministic <span class="emoji all-the-things"></span></li>
                 <li class="fragment">Fast to execute <span class="emoji all-the-things"></span></li>
             </ul>
         </section>
@@ -94,19 +94,16 @@
         </section>
         <section>
             <p class="top-title-1">What we should expect from tests?</p>
-            <p>Deterministic</p>
-            <ul>
-                <li class="fragment">Always the same result with the same input</li>
-                <li class="fragment">They deal with variable external factors (ie: time)</li>
-            </ul>
+            <p>Automated</p>
+            <p class="fragment">We must be able to run all our tests with the minimum interaction possible</p>
+            <p class="fragment">And we can run them without having to prepare all the test setup</p>
+            <p class="fragment">So they can be introduced in CI pipelines</p>
         </section>
         <section>
             <p class="top-title-1">What we should expect from tests?</p>
-            <p>Automated</p>
-            <ul>
-                <li class="fragment">We must be able to run all our tests with the minimum interaction possible</li>
-                <li class="fragment">And we can run them without having to prepare all the test setup</li>
-            </ul>
+            <p>Deterministic</p>
+            <p class="fragment">Always the same result with the same input</p>
+            <p class="fragment">They will have to deal with variable factors (ie: time, randomness)</p>
         </section>
         <section>
             <p class="top-title-1">What we should expect from tests?</p>
@@ -192,12 +189,38 @@
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
-            <p>Use TDD</p>
-            <p class="fragment">Pros: it is nuts</p>
-            <p class="fragment">Cons: easy conceptually, hard to master</p>
-            <p class="fragment">It improves design for both the test and the system under test</p>
-            <p class="fragment">Focus on one small problem at a time</p>
-            <p class="fragment">Not valid for everything or every moment!</p>
+            <p>Stick to the structure</p>
+            <div class="fragment">
+                <p>AAA: Arrange, Act, Assert</p>
+            </div>
+            <pre class="fragment">
+                <code>
+public function testCartIsEmptyAfterCheckout(): void {
+    //Arrange
+    $this->cart->addItem(2, new Tuneladora());
+    //Act
+    $this->cart->checkout();
+    //Assert
+    $this->assertTrue($this->cart->isEmpty());
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Stick to the structure</p>
+            <div class="fragment">
+                <p>GWT: Given, When, Then</p>
+            </div>
+            <pre class="fragment">
+                <code>
+public function testCartIsEmptyAfterCheckout(): void {
+    $this->givenIHaveACartWithItemsOnIt();
+    $this->whenTheCartIsCheckedOut();
+    $this->thenTheCartIsEmpty();
+}
+                </code>
+            </pre>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
@@ -211,33 +234,57 @@
             <p>Just one assertion per test</p>
             <pre>
                 <code class="php">
-public function testOperations(): void {
-    $calculator = new Calculator();
-    $this->assertSame(5, $calculator->sum(2,3));
-    $this->assertSame(7, $calculator->minus(10,3));
-    $this->assertSame(15, $calculator->multiply(10,3));
+public function testShippingAnOrder(): void {
+    $this->shippingService->shipOrder($this->orderId);
+
+    $this->assertTrue($this->order->isShipped());
+    $this->assertTrue(  //??
+        $this->pushNotificator->wasCalled()
+    );
+    $this->assertTrue( //??
+        $this->order->user()->hasNoPendingOrders()
+    );
 }
                 </code>
             </pre>
-            <p class="fragment">baaaaaaaaaaaaaaad</p>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Just one assertion per test</p>
             <pre>
                 <code class="php">
-public function testItAdds(): void {
-    $calculator = new Calculator();
-    $this->assertSame(5, $calculator->sum(2,3));
+//One test for each different behavior we expect to met
+public function testShippingAnOrderMarksItAsShipped(): void {
+    $this->shippingService->shipOrder($this->orderId);
+
+    $this->assertTrue($this->order->isShipped());
 }
 
-public function testItCreatesSiblingUsers(): void {
-    $createUserService = new CreateUserService();
+public function testItSendsAPushNotificationOnShipping(): void {
+    $this->shippingService->shipOrder($this->orderId);
 
-    $userOne = $createUserService->withId(1337);
-    $userTwo = $createUserService->siblingOf($userOne);
+    $this->assertTrue($this->pushNotificator->wasCalled());
+}
 
-    $this->assertTrue($userOne->isSiblingOf($userTwo);
+//etc.
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Just one assertion per test</p>
+            <pre>
+                <code class="php">
+public function testShippingAnOrderMarksItAsShipped(): void {
+    $this->shippingService->shipOrder($this->orderId);
+
+    //Asserting a group of constraints related to
+    //the same operation
+    $this->assertTrue($this->order->isShipped());
+    $this->assertSame(
+        $this->today,
+        $this->order->shippingDate()
+    );
 }
                 </code>
             </pre>
@@ -245,52 +292,129 @@ public function testItCreatesSiblingUsers(): void {
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Test behavior, not implementation</p>
-            <p>Tests should tell you if your application works, not how it is coded</p>
-            <p>Usually there are many ways of solving a problem. Our tests should not fail if we exchange between valid
+            <p class="fragment">Tests should tell you if your application works, not how it is coded</p>
+            <p class="fragment">Usually there are many ways of solving a problem. Our tests should not fail if we
+                exchange between valid
                 ways of doing it
             </p>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Test behavior, not implementation</p>
-            <div class="two-column-content">
-                <div class="two-column-first">
-                    Something bad
-                </div>
-                <div class="two-column-second">
-                    Something good
-                </div>
-            </div>
+            <pre class="code-big-chunk">
+                <code>
+public function testShippingAnOrderMarksItAsShipped(): void {
+    $this->repositoryMock
+         ->method('find')
+         ->shouldBeCalled($this->once()) //Do we care?
+         ->with($this->orderId) //Do we care?
+         ->willReturn($this->order);
+
+    $this->repositoryMock
+         ->method('save') //Do we care?
+         ->shouldBeCalled($this->once()) //Do we care?
+         ->with($this->order);
+
+    $this->shippingFeeCalculatorMock  //Do we care in this test?
+         ->method('calculate')
+         ->shouldBeCalled($this->once())
+         ->with($this->order)
+
+    $this->shippingService->shipOrder($this->orderId);
+
+    $this->assertTrue($this->order->isShipped());
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Test behavior, not implementation</p>
+            <pre>
+                <code>
+public function testShippingAnOrderMarksItAsShipped(): void {
+    //No expectation on the number of
+    //calls, irrelevant for the test
+    $this->repositoryMock
+         ->method('find')
+         ->willReturn($this->order);
+
+    //We do not care if it is saved or about fees
+    //in this test
+    $this->shippingService->shipOrder($this->orderId);
+
+    $this->assertTrue($this->order->isShipped());
+}
+                </code>
+            </pre>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Avoid mock-aggedon</p>
             <p>Mocking everything is not needed most of the times</p>
-            Example: mock a VO
-            <p>Set you test boundaries and test only the public interface of them</p>
+            <p>Set you test boundaries and test only the sut public interface</p>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Avoid mock-aggedon</p>
-            <p>What about avoiding mocking libraries?</p>
-            <p>Manual mocks are cheap and more understandable</p>
-            <p>Asserts are explicit</p>
-            <div class="two-column-content">
-                <div class="two-column-first">
-                    Spy example
-                </div>
-                <div class="two-column-second">
-                    Spy usage
-                </div>
-            </div>
+            <pre>
+                <code>
+public function testMockingAllTheThings(): void {
+    $id   = $this->createMock(UserId::class);
+    $id   = $id->method('value')->willReturn(42);
+    $user = $this->createMock(User::class);
+    $user->method('id')->willReturn($id);
+
+    //Please, no
+}
+
+public function testMockTheLessStuffPossible(): void {
+    $id   = UserId::fromValue(42);
+    $user = User::withId($id);
+
+    //Way better
+}
+                </code>
+            </pre>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
-            <p>Stick to the structure</p>
-            <div class="fragment">
-                <p>AAA: Arrange, Act, Assert</p>
-                <p>GWT: Given, When, Then</p>
-            </div>
+            <p>Avoid mock-aggedon</p>
+            <p class="fragment">What about avoiding mocking libraries?</p>
+            <p class="fragment">Manual mocks are cheap and more understandable</p>
+            <p class="fragment">Asserts are explicit</p>
+            <p class="fragment">Better performance</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Avoid mock-aggedon</p>
+            <pre class="code-big-chunk">
+                <code>
+class PushNotificatorSpy extends PushNotificator {
+    private $calls = 0;
+
+    public function sendNotification() {
+        $this->calls++;
+    }
+
+    public function wasCalledTimes(int $times): bool {
+        return $this->calls === $times;
+    }
+}
+
+//In the test
+$this->assertTrue($this->pushNotificator->wasCalledTimes(2));
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Something weird in previous example?</p>
+            <code class="fragment">class PushNotificatorSpy <span style="font-weight: bold">extends</span>
+                PushNotificator</code>
+            <p class="fragment">Trade off: break encapsulation, classes cannot be final</p>
+            <p class="fragment">Alternative: move contract to an interface</p>
+            <p class="fragment">Trade off: abstractions only for the test</p>
         </section>
         <section>
             <p class="top-title-3">How to write better tests</p>
@@ -302,30 +426,85 @@ public function testItCreatesSiblingUsers(): void {
         <section>
             <p class="top-title-3">How to write better tests</p>
             <p>Use builders for data fixtures</p>
-            <div class="two-column-content">
-                <div class="two-column-first">
-                    BAD: test instantiating a class with x properties, most of them irrelevant. Start by the assertion
-                    assertSame::(100, $totalToInvoice), point how irrelevant some fields are (item name, date)
-                </div>
-                <div class="two-column-second">
-                    NOT BAD: use a builder :). Examples of customizable builders: create(array), banned(),
-                    withActiveNotifications(), fluent setters.
-                </div>
-            </div>
+            <pre>
+                <code>
+public function testPromoteUserToAdmin {
+    $user = new User(
+        UserId::fromValue(42),
+        'Marvin',
+        UserSpecie::robot(),
+        UserMood::depressed(),
+        UserType::regularUser()
+    );
+
+    $user->promoteUserToAdmin();
+    $this->assertTrue($user->isAdmin());
+}
+                </code>
+            </pre>
+            <p>Do we care about all the user data besides the UserType?</p>
+            <p>What if the constructor starts to receive a VO for the name?</p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Use builders for data fixtures</p>
+            <pre>
+                <code>
+public function testPromoteUserToAdmin {
+    $user = UserBuilder::regularUser();
+    $user->promoteUserToAdmin();
+    $this->assertTrue($user->isAdmin());
+}
+                </code>
+            </pre>
+            <p>Now a change in User constructor implies only updating the builder, not all the tests doing a <code>new User<</code></p>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Provide factory methods for commonly used configurations</p>
+            <p>Provide a way of customizing each parameter for concrete, exceptional configurations</p>
+            <pre>
+                <code>
+class UserBuilder {
+    //This sets default/random values for all not provided parameters
+    public static function withParameter(array $parameters): User {}
+
+    //Concrete methods internally using withParameters()
+    public static function regularUser(): User {}
+    public static function adminUser(): User {}
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p class="top-title-3">How to write better tests</p>
+            <p>Final advice: <span class="fragment">Use TDD</span></p>
+            <p class="fragment">Pros: it is nuts</p>
+            <p class="fragment">Cons: easy conceptually, hard to master</p>
+            <p class="fragment">It improves design for both the test and the system under test</p>
+            <p class="fragment">You focus on one small problem at a time</p>
+            <p class="fragment">Not valid for everything or every moment!</p>
         </section>
         <section>
             <h2>Almost done!</h2>
             <p class="fragment">Why the <span style="font-style: italic;">hopefully</span> in the title?</p>
-            <p class="fragment">Not all practises work in all situations</p>
-            <p class="fragment">Evaluate yours and adapt to it</p>
+            <div class="fragment">
+                <p>YMMV</p>
+                <p>Not all practises work in all situations</p>
+                <p>Evaluate yours and adapt</p>
+            </div>
             <p class="fragment">(and do TDD)</p>
         </section>
-        <section class="title-slide">
+        <section data-state="dark-bg">
             <h1>That's all</h1>
             <h2>Thank you!</h2>
             <p>Slides available at</p>
+            <p>
+                <a href="https://github.com/xoubaman/talk-faster-better-testing">
+                    https://github.com/xoubaman/talk-faster-better-testing
+                </a>
+            </p>
         </section>
-
     </div>
 </div>
 
