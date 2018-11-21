@@ -7,6 +7,12 @@ Probably it will be updated over time.
 
 Any feedback is welcome!
 
+## To see the slides
+
+This is a [reveal.js](https://revealjs.com) presentation.
+
+Clone or download the repository and open `index.html` in your browser.
+
 ## TODO
 
 * Add memes. Presentation is boring.
